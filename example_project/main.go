@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"example.com/sample/lib"
 )
 
 func main() {
-	fmt.Println("Hello World!")
+	str := "!Hello World!"
+	str = lib.TrimExclamation(str)
+	fmt.Println(str)
 }
