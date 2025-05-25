@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+
+	"github.com/rkitamu/gomono/internal/astutil"
 )
 
 var (
@@ -18,6 +20,14 @@ var rootCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		fmt.Println("Project Root:", rootPath)
 		fmt.Println("Main.go Path:", mainPath)
+
+		imports, err := astutil.ExtractImports(mainPath)
+		if err != nil {
+			return err
+		}
+		fmt.Println("Imports:", imports)
+
+		
 		return nil
 	},
 }

@@ -8,8 +8,8 @@
       "mode": "auto",
       "program": "${workspaceFolder}/cmd/gomono",
       "args": [
-        "--root", "./example_project",
-        "--main", "./example_project/cmd/main.go"
+        "--root", "${workspaceFolder}/example_project/main.go",
+        "--main", "${workspaceFolder}/example_project/main.go"
       ]
     }
   ]
