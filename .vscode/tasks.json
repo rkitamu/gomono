@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build gomono",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "build",
+        "-o", "bin/gomono",
+        "./cmd/gomono"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$go"],
+      "detail": "Build the gomono CLI tool"
+    }
+  ]
+}

@@ -2,11 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Main",
+      "name": "Launch gomono",
       "type": "go",
       "request": "launch",
       "mode": "auto",
-      "program": "${workspaceFolder}/main.go"
+      "program": "${workspaceFolder}/cmd/gomono",
+      "args": [
+        "--root", "./example_project",
+        "--main", "./example_project/cmd/main.go"
+      ]
     }
   ]
 }
