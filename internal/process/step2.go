@@ -23,5 +23,16 @@ func Step2AnalyzeDependencies(rootPath, mainPath string) error {
 	for f := range files {
 		fmt.Println(" -", f)
 	}
+
+	// step3: sort dependencies
+	sortedFiles, err := deps.TopoSort(files, rootPath, moduleName)
+	if err != nil {
+		return fmt.Errorf("failed to sort dependencies: %w", err)
+	}
+	fmt.Println("Sorted Go Files:")
+	for _, f := range sortedFiles {
+		fmt.Println(" -", f)
+	}
+
 	return nil
 }
