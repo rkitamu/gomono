@@ -3,8 +3,10 @@ package process
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/rkitamu/gomono/internal/deps"
+	"github.com/rkitamu/gomono/internal/merge"
 )
 
 func Step2AnalyzeDependencies(rootPath, mainPath string) error {
@@ -34,5 +36,27 @@ func Step2AnalyzeDependencies(rootPath, mainPath string) error {
 		fmt.Println(" -", f)
 	}
 
+	// step4: merge files
+	mergedCode, err := MergeFiles(sortedFiles)
+	if err != nil {
+		return fmt.Errorf("failed to merge files: %w", err)
+	}
+	fmt.Println("Merged Go Code:")
+	fmt.Println(mergedCode)
+
 	return nil
+}
+
+// MergeFiles joins all ordered files into a single Go source code (excluding package/import).
+func MergeFiles(ordered []string) (string, error) {
+	var builder strings.Builder
+	for _, path := range ordered {
+		code, err := merge.ExtractCodeWithoutPackageAndImports(path)
+		if err != nil {
+			return "", err
+		}
+		builder.WriteString(code)
+		builder.WriteString("\n\n")
+	}
+	return builder.String(), nil
 }
