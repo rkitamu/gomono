@@ -1,0 +1,24 @@
+{
+  "name": "Go DevContainer",
+  "image": "mcr.microsoft.com/devcontainers/go:latest",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "formulahendry.code-runner",
+        "usernamehw.errorlens"
+      ],
+      "settings": {
+        "go.useLanguageServer": true,
+        "go.toolsManagement.autoUpdate": true,
+        "go.lintTool": "golangci-lint",
+        "go.lintOnSave": "file",
+        "go.testOnSave": true,
+        "go.formatTool": "gofmt"
+      }
+    }
+  },
+  "postCreateCommand": "./.devcontainer/setup.sh",
+  "remoteUser": "vscode"
+}
