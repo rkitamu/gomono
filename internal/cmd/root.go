@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/rkitamu/gomono/internal/astutil"
+	"github.com/rkitamu/gomono/internal/process"
 )
 
 var (
@@ -20,14 +20,12 @@ var rootCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		fmt.Println("Project Root:", rootPath)
 		fmt.Println("Main.go Path:", mainPath)
-
-		imports, err := astutil.ExtractImports(mainPath)
-		if err != nil {
+		if err := process.Step1ImportAnalysis(mainPath); err != nil {
 			return err
 		}
-		fmt.Println("Imports:", imports)
-
-		
+		if err := process.Step2AnalyzeDependencies(rootPath, mainPath); err != nil {
+			return err
+		}
 		return nil
 	},
 }
