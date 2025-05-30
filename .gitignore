@@ -47,3 +47,6 @@ go.work
 
 # vscode task output
 bin
+
+# build artifact
+gomono
