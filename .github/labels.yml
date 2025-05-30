@@ -1,0 +1,7 @@
+- name: feasibility-check
+  color: "f9d0c4"
+  description: "実行フローにおける実現可能性の調査タスク"
+
+- name: test
+  color: "f9d0c4"
+  description: "testa"
