@@ -34,6 +34,6 @@ func Execute() error {
 func runGomono(cmd *cobra.Command, args []string) {
 	if _, err := os.Stat(arguments.InputFilePath); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
-    	os.Exit(1)
+		os.Exit(1)
 	}
 }
