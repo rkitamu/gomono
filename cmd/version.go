@@ -17,6 +17,5 @@ func init() {
 }
 
 func runVersion(cmd *cobra.Command, args []string) {
-	// TODO: なにも決まってない
-	fmt.Println("gomono v0.1.0")
+	fmt.Println("gomono not released")
 }
