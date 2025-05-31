@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -31,5 +32,8 @@ func Execute() error {
 }
 
 func runGomono(cmd *cobra.Command, args []string) {
-	fmt.Println(arguments)
+	if _, err := os.Stat(arguments.InputFilePath); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+    	os.Exit(1)
+	}
 }
