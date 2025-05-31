@@ -6,13 +6,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Argument struct {
+type Arguments struct {
 	InputFilePath  string
 	OutputFilePath string
 	Verbose        bool
 }
 
-var args Argument
+var arguments Arguments
 
 var rootCmd = &cobra.Command{
 	Use:   "gomono",
@@ -21,9 +21,9 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.Flags().StringVarP(&args.InputFilePath, "input", "i", "./main.go", "Target file path (default: ./main.go)")
-	rootCmd.Flags().StringVarP(&args.OutputFilePath, "output", "o", "", "Output file path (default: stdout)")
-	rootCmd.Flags().BoolVarP(&args.Verbose, "verbose", "v", false, "Enable verbose output")
+	rootCmd.Flags().StringVarP(&arguments.InputFilePath, "input", "i", "./main.go", "Target file path (default: ./main.go)")
+	rootCmd.Flags().StringVarP(&arguments.OutputFilePath, "output", "o", "", "Output file path (default: stdout)")
+	rootCmd.Flags().BoolVarP(&arguments.Verbose, "verbose", "v", false, "Enable verbose output")
 }
 
 func Execute() error {
@@ -31,5 +31,5 @@ func Execute() error {
 }
 
 func runGomono(cmd *cobra.Command, args []string) {
-	fmt.Println(args)
+	fmt.Println(arguments)
 }
