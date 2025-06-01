@@ -8,7 +8,7 @@
       "args": [
         "build",
         "-o", "bin/gomono",
-        "./cmd/gomono"
+        "./main.go"
       ],
       "group": {
         "kind": "build",
