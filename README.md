@@ -1,5 +1,12 @@
 # gomono
 
+## ⚠️ Status: Not Released
+
+This project is a work in progress. APIs and behavior may change without notice.
+Do not use in production.
+
+## What is this?
+
 **gomono** is a CLI tool that flattens modular Go code into a single-file `main.go` script.
 
 This is useful for environments like competitive programming or tooling pipelines where you want to bundle all logic into a single executable file.
