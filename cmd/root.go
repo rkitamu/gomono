@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/rkitamu/gomono/internal/deps"
+	"github.com/rkitamu/gomono/internal/logutil"
 	"github.com/spf13/cobra"
 )
 
@@ -26,6 +28,10 @@ func init() {
 	rootCmd.Flags().StringVarP(&arguments.InputFilePath, "input", "i", "./main.go", "Target file path (default: ./main.go)")
 	rootCmd.Flags().StringVarP(&arguments.OutputFilePath, "output", "o", "", "Output file path (default: stdout)")
 	rootCmd.Flags().BoolVarP(&arguments.Verbose, "verbose", "v", false, "Enable verbose output")
+
+	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+		logutil.SetupLogger(arguments.Verbose)
+	}
 }
 
 func Execute() error {
@@ -33,13 +39,17 @@ func Execute() error {
 }
 
 func runGomono(cmd *cobra.Command, args []string) {
+	slog.Debug("checking if input file exists", "path", arguments.InputFilePath)
 	if _, err := os.Stat(arguments.InputFilePath); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 
-	if _, err := deps.FindGoModPath(arguments.InputFilePath); err != nil {
+	slog.Debug("searching for go.mod", "from", arguments.InputFilePath)
+	goModPath, err := deps.FindGoModPath(arguments.InputFilePath)
+	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
+	slog.Debug("found go.mod", "path", goModPath)
 }
