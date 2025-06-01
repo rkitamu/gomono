@@ -51,5 +51,13 @@ func runGomono(cmd *cobra.Command, args []string) {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
-	slog.Debug("found go.mod", "path", goModPath)
+
+	slog.Debug("extracting for module name", "path", goModPath)
+	moduleName, err := deps.GetModuleName(goModPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+
+	slog.Debug("extracted module name", "name", moduleName)
 }
