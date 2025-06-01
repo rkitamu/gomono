@@ -59,5 +59,11 @@ func runGomono(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	slog.Debug("extracted module name", "name", moduleName)
+	slog.Debug("analyze dependencies candidate", "path", arguments.InputFilePath)
+	deps, err := deps.AnalyzeLocalDependencies(arguments.InputFilePath, goModPath, moduleName)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(deps)
 }
