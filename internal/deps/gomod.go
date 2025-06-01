@@ -1,7 +1,7 @@
 package deps
 
 import (
-	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -19,7 +19,7 @@ func findGoModRecursive(dir string) (string, error) {
 	}
 	parent := filepath.Dir(dir)
 	if parent == dir {
-		return "", errors.New("go.mod not found")
+		return "", fmt.Errorf("go.mod not found in directory: %s", dir)
 	}
 	return findGoModRecursive(parent)
 }
