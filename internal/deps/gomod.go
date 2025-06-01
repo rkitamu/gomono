@@ -19,7 +19,7 @@ func findGoModRecursive(dir string) (string, error) {
 	}
 	parent := filepath.Dir(dir)
 	if parent == dir {
-		return "", fmt.Errorf("go.mod not found in directory: %s", dir)
+		return "", fmt.Errorf("go.mod not found; reached filesystem root: %s", dir)
 	}
 	return findGoModRecursive(parent)
 }
