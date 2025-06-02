@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/rkitamu/gomono/internal/codegen"
 	"github.com/rkitamu/gomono/internal/deps"
 	"github.com/rkitamu/gomono/internal/logutil"
 	"github.com/spf13/cobra"
@@ -65,5 +66,25 @@ func runGomono(cmd *cobra.Command, args []string) {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println(deps)
+
+	if arguments.OutputFilePath == "" {
+		slog.Debug("generate merged code stdout")
+		err := codegen.GenerateToStdout(
+			deps[0].Files[0].FSet,
+			deps[0].Files[0].AST)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			os.Exit(1)
+		}
+	} else {
+		slog.Debug("generate merged code", "path", arguments.OutputFilePath)
+		err := codegen.GenerateToFile(
+			deps[0].Files[0].FSet,
+			deps[0].Files[0].AST,
+			arguments.OutputFilePath)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			os.Exit(1)
+		}
+	}
 }
