@@ -23,3 +23,13 @@ func ListFileFromDir(dir string) ([]string, error) {
 
 	return filePaths, nil
 }
+
+// NormalizePath converts the given path to an absolute and cleaned path.
+// This ensures consistent comparison across relative/absolute paths.
+func NormalizePath(path string) (string, error) {
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		return "", err
+	}
+	return filepath.Clean(abs), nil
+}

@@ -8,6 +8,7 @@ import (
 	"github.com/rkitamu/gomono/internal/codegen"
 	"github.com/rkitamu/gomono/internal/deps"
 	"github.com/rkitamu/gomono/internal/logutil"
+	"github.com/rkitamu/gomono/internal/merger"
 	"github.com/spf13/cobra"
 )
 
@@ -61,30 +62,29 @@ func runGomono(cmd *cobra.Command, args []string) {
 	}
 
 	slog.Debug("analyze dependencies candidate", "path", arguments.InputFilePath)
-	deps, err := deps.AnalyzeLocalDependencies(arguments.InputFilePath, goModPath, moduleName)
+	dependencies, err := deps.AnalyzeLocalDependencies(arguments.InputFilePath, goModPath, moduleName)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 
+	slog.Debug("merge local dependencies")
+	mergedFset, mergedAst, err := merger.MergeLocalDependencies(arguments.InputFilePath, dependencies)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+
+	var genErr error
 	if arguments.OutputFilePath == "" {
 		slog.Debug("generate merged code stdout")
-		err := codegen.GenerateToStdout(
-			deps[0].Files[0].FSet,
-			deps[0].Files[0].AST)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v\n", err)
-			os.Exit(1)
-		}
+		genErr = codegen.GenerateToStdout(mergedFset, mergedAst)
 	} else {
 		slog.Debug("generate merged code", "path", arguments.OutputFilePath)
-		err := codegen.GenerateToFile(
-			deps[0].Files[0].FSet,
-			deps[0].Files[0].AST,
-			arguments.OutputFilePath)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "%v\n", err)
-			os.Exit(1)
-		}
+		genErr = codegen.GenerateToFile(mergedFset, mergedAst, arguments.OutputFilePath)
+	}
+	if genErr != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
 	}
 }

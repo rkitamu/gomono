@@ -10,6 +10,7 @@
       "args": [
         "-i", "${workspaceFolder}/_example/queuemodule/main.go",
         "-v",
+        "-o", "${workspaceFolder}/_example/queuemoduleactual/main.go"
       ]
     }
   ]
