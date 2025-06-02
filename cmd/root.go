@@ -69,7 +69,7 @@ func runGomono(cmd *cobra.Command, args []string) {
 	}
 
 	slog.Debug("merge local dependencies")
-	mergedFset, mergedAst, err := merger.MergeLocalDependencies(arguments.InputFilePath, dependencies)
+	mergedFset, mergedAst, err := merger.MergeLocalDependencies(dependencies)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
